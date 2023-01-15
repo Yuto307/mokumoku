@@ -2,9 +2,15 @@
 
 class EventsController < ApplicationController
   def index
-    @q = Event.future.ransack(params[:q])
-    @events = @q.result(distinct: true).includes(:bookmarks, :prefecture, user: { avatar_attachment: :blob })
-                .order(created_at: :desc).page(params[:page])
+    if current_user.woman?
+      @q = Event.future.ransack(params[:q])
+      @events = @q.result(distinct: true).includes(:bookmarks, :prefecture, user: { avatar_attachment: :blob })
+                  .order(created_at: :desc).page(params[:page])
+    else
+      @q = Event.future.mens.ransack(params[:q])
+      @events = @q.result(distinct: true).includes(:bookmarks, :prefecture, user: { avatar_attachment: :blob })
+                  .order(created_at: :desc).page(params[:page])
+    end
   end
 
   def future
@@ -42,6 +48,9 @@ class EventsController < ApplicationController
 
   def show
     @event = Event.find(params[:id])
+    if !current_user.woman? && @event.only_woman?
+      redirect_to root_path
+    end
   end
 
   def edit
@@ -60,6 +69,6 @@ class EventsController < ApplicationController
   private
 
   def event_params
-    params.require(:event).permit(:title, :content, :held_at, :prefecture_id, :thumbnail)
+    params.require(:event).permit(:title, :content, :only_women, :held_at, :prefecture_id, :thumbnail)
   end
 end
