@@ -14,5 +14,5 @@ ja:
         woman: 女性
     event:
       only_women:
-        everyone: 指定なし
+        unspecified: 指定なし
         only_woman: 女性限定

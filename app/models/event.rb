@@ -21,7 +21,7 @@ class Event < ApplicationRecord
     validates :held_at
   end
 
-  enum only_women: { everyone: false, only_woman: true }
+  enum only_women: { unspecified: false, only_woman: true }
 
   def past?
     held_at < Time.current
