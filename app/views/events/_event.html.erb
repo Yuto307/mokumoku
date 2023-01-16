@@ -15,6 +15,11 @@
           <%= event.prefecture.name %>
         </div>
         <div>
+          <% if event.only_woman? %>
+            <%= event.only_women_i18n %>
+          <% end %>
+        </div>
+        <div>
           <i class="bi bi-calendar"></i>
           <%= l event.held_at, format: :short %>
         </div>
