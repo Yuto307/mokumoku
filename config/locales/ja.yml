@@ -15,4 +15,4 @@ ja:
     event:
       only_women:
         everyone: 指定なし
-        womens: 女性限定
+        only_woman: 女性限定

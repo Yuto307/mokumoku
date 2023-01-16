@@ -15,7 +15,7 @@
               <%= @event.title %>
             </h1>
             <% if @event.only_woman? %>
-              <%= @event.only_women %>
+              <%= @event.only_women_i18n %>
             <% end %>
             <% if logged_in? %>
               <div class="ms-auto">
@@ -88,20 +88,22 @@
           <div class="text-center">
             <% if logged_in? %>
               <% if !current_user.owner?(@event) %>
-                <% if current_user.attend?(@event) %>
-                  <%= link_to 'キャンセルする',
-                              event_attendance_url(@event),
-                              class: 'btn btn-primary',
-                              method: :delete,
-                              data: { confirm: 'キャンセルします' }
-                  %>
-                <% else %>
-                  <%= link_to 'このもくもく会に参加する',
-                              event_attendance_url(@event),
-                              class: 'btn btn-primary',
-                              method: :post,
-                              data: { confirm: '申し込みます' }
-                  %>
+                <% if !current_user.woman? && @event.everyone? || current_user.woman? %>
+                  <% if current_user.attend?(@event) %>
+                    <%= link_to 'キャンセルする',
+                                event_attendance_url(@event),
+                                class: 'btn btn-primary',
+                                method: :delete,
+                                data: { confirm: 'キャンセルします' }
+                    %>
+                  <% else %>
+                    <%= link_to 'このもくもく会に参加する',
+                                event_attendance_url(@event),
+                                class: 'btn btn-primary',
+                                method: :post,
+                                data: { confirm: '申し込みます' }
+                    %>
+                  <% end %>
                 <% end %>
               <% end %>
             <% end %>
